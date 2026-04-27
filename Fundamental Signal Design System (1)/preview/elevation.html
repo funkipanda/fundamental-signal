@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<title>Elevation</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html,body{margin:0;background:var(--fs-bg);color:var(--fs-fg);font-family:var(--fs-font-sans);}
+  .card{padding:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:center;}
+  .demo{background:var(--fs-bg-card);border:1px solid var(--fs-border);border-radius:2px;padding:16px;height:80px;display:flex;flex-direction:column;justify-content:space-between;}
+  .lbl{font-family:var(--fs-font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--fs-fg-muted);}
+  .nm{font-family:var(--fs-font-mono);font-size:11px;color:var(--fs-fg-strong);font-weight:500;}
+  .hint{font-family:var(--fs-font-sans);font-size:10px;color:var(--fs-fg-dim);}
+</style></head>
+<body><div class="card">
+  <div class="demo"><div class="lbl">shadow-sm</div><div><div class="nm">Table row hairline</div><div class="hint">cards use borders, not this</div></div></div>
+  <div class="demo" style="box-shadow:var(--fs-shadow-md)"><div class="lbl">shadow-md</div><div><div class="nm">Popovers, menus</div><div class="hint">0 4px 16px 45%</div></div></div>
+  <div class="demo" style="box-shadow:var(--fs-shadow-lg)"><div class="lbl">shadow-lg</div><div><div class="nm">Modal dialogs</div><div class="hint">0 12px 32px 55%</div></div></div>
+</div></body></html>

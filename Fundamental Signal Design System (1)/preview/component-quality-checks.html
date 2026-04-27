@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<title>Quality Filter Checks</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html,body{margin:0;background:var(--fs-bg);color:var(--fs-fg);font-family:var(--fs-font-sans);}
+  .card{padding:18px;}
+  .grp{background:var(--fs-bg-card);border:1px solid var(--fs-border);border-radius:2px;}
+  .hd{padding:8px 14px;border-bottom:1px solid var(--fs-border);font-family:var(--fs-font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--fs-fg-muted);}
+  .row{display:grid;grid-template-columns:1fr auto auto auto;gap:16px;padding:8px 14px;align-items:center;border-bottom:1px dashed var(--fs-border-soft);font-family:var(--fs-font-mono);font-size:12px;}
+  .row:last-child{border-bottom:0;}
+  .name{color:var(--fs-fg);}
+  .val{font-variant-numeric:tabular-nums;color:var(--fs-fg-strong);min-width:60px;text-align:right;}
+  .thr{color:var(--fs-fg-dim);font-size:11px;min-width:80px;text-align:right;}
+  .ico{font-size:14px;font-weight:700;}
+  .ok{color:var(--fs-signal-undervalued);}
+  .no{color:var(--fs-signal-overvalued);}
+  .na{color:var(--fs-fg-dim);}
+</style></head>
+<body><div class="card"><div class="grp">
+  <div class="hd">Quality filters</div>
+  <div class="row"><div class="name">ROE</div><div class="val">15.2%</div><div class="thr">≥ 10.0%</div><div class="ico ok">✓</div></div>
+  <div class="row"><div class="name">CF Quality (OCF/NI)</div><div class="val">1.1x</div><div class="thr">≥ 0.8x</div><div class="ico ok">✓</div></div>
+  <div class="row"><div class="name">D/E Ratio</div><div class="val">2.8x</div><div class="thr">≤ 2.0x</div><div class="ico no">✗</div></div>
+  <div class="row"><div class="name">D/E Ratio (banks)</div><div class="val">8.4x</div><div class="thr">n/a</div><div class="ico na">―</div></div>
+</div></div></body></html>

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<title>Type — Numerics</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html,body{margin:0;background:var(--fs-bg);color:var(--fs-fg);font-family:var(--fs-font-sans);}
+  .card{padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .block{background:var(--fs-bg-card);border:1px solid var(--fs-border);border-radius:2px;padding:14px;}
+  .lbl{font-family:var(--fs-font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--fs-fg-muted);margin-bottom:6px;}
+  .big{font-family:var(--fs-font-mono);font-variant-numeric:tabular-nums;font-size:40px;line-height:1;letter-spacing:-0.02em;color:var(--fs-fg-strong);font-weight:500;}
+  .row{display:flex;justify-content:space-between;font-family:var(--fs-font-mono);font-variant-numeric:tabular-nums;font-size:12px;padding:3px 0;border-bottom:1px dashed var(--fs-border-soft);}
+  .row:last-child{border-bottom:0;}
+  .up{color:var(--fs-up);} .down{color:var(--fs-down);}
+</style></head>
+<body><div class="card">
+  <div class="block">
+    <div class="lbl">Hero numeric</div>
+    <div class="big">$198.45</div>
+    <div style="margin-top:8px;font-family:var(--fs-font-mono);font-size:12px;" class="up">+2.31 (+1.18%) ▲</div>
+  </div>
+  <div class="block">
+    <div class="lbl">Tabular row alignment</div>
+    <div class="row"><span>Forward P/E</span><span>10.2x</span></div>
+    <div class="row"><span>EV/EBITDA</span><span>&nbsp;&nbsp;N/A</span></div>
+    <div class="row"><span>FCF Yield</span><span class="up">8.1%</span></div>
+    <div class="row"><span>ROE</span><span>15.2%</span></div>
+    <div class="row"><span>D/E Ratio</span><span>&nbsp;0.8x</span></div>
+  </div>
+</div></body></html>

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<title>Price Range Track</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html,body{margin:0;background:var(--fs-bg);color:var(--fs-fg);font-family:var(--fs-font-sans);}
+  .card{padding:20px;display:flex;flex-direction:column;gap:18px;}
+  .row{display:grid;grid-template-columns:80px 1fr 80px 80px;gap:14px;align-items:center;font-family:var(--fs-font-mono);font-size:11px;}
+  .lo,.hi{color:var(--fs-fg-dim);font-variant-numeric:tabular-nums;}
+  .hi{text-align:right;}
+  .track{position:relative;height:6px;background:var(--fs-ink-500);border-radius:1px;}
+  .mean{position:absolute;top:-2px;width:1px;height:10px;background:var(--fs-fg-dim);}
+  .mk{position:absolute;top:-4px;width:2px;height:14px;background:var(--fs-fg-muted);}
+  .pos{position:absolute;top:-5px;width:10px;height:16px;background:var(--fs-accent);border-radius:1px;transform:translateX(-50%);}
+  .pos::after{content:attr(data-pct);position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--fs-accent);white-space:nowrap;}
+  .tkr{font-weight:700;color:var(--fs-fg-strong);}
+  .cur{text-align:right;color:var(--fs-fg-strong);font-weight:500;}
+  .lbl{font-family:var(--fs-font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--fs-fg-muted);}
+</style></head>
+<body><div class="card">
+  <div class="lbl">52-week range · current position</div>
+  <div class="row">
+    <div class="tkr">JPM</div>
+    <div class="track"><div class="mk" style="left:45%"></div><div class="mk" style="left:52%"></div><div class="pos" style="left:65%" data-pct="65%"></div></div>
+    <div class="lo">$167.20</div><div class="cur">$198.45</div>
+  </div>
+  <div class="row">
+    <div class="tkr">INTC</div>
+    <div class="track"><div class="mk" style="left:70%"></div><div class="mk" style="left:74%"></div><div class="pos" style="left:92%;background:var(--fs-signal-overvalued)" data-pct="92%"></div></div>
+    <div class="lo">$18.50</div><div class="cur">$67.26</div>
+  </div>
+  <div class="row">
+    <div class="tkr">XOM</div>
+    <div class="track"><div class="mk" style="left:50%"></div><div class="mk" style="left:54%"></div><div class="pos" style="left:18%;background:var(--fs-signal-undervalued)" data-pct="18%"></div></div>
+    <div class="lo">$102.10</div><div class="cur">$149.94</div>
+  </div>
+</div></body></html>

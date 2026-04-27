@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<title>Flags / Plain-English Callouts</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html,body{margin:0;background:var(--fs-bg);color:var(--fs-fg);font-family:var(--fs-font-sans);}
+  .card{padding:18px;display:flex;flex-direction:column;gap:8px;}
+  .flag{display:flex;gap:10px;align-items:flex-start;padding:8px 12px;border-left:2px solid;background:var(--fs-bg-card);font-family:var(--fs-font-sans);font-size:12px;line-height:1.5;}
+  .caps{font-family:var(--fs-font-mono);font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;}
+  .flag.u{border-color:var(--fs-signal-undervalued);}
+  .flag.o{border-color:var(--fs-signal-overvalued);}
+  .flag.t{border-color:var(--fs-signal-trap);}
+  .flag.p{border-color:var(--fs-signal-premium);}
+  .flag.n{border-color:var(--fs-border-strong);}
+  .pass{color:var(--fs-signal-undervalued);font-family:var(--fs-font-mono);}
+  .fail{color:var(--fs-signal-overvalued);font-family:var(--fs-font-mono);}
+</style></head>
+<body><div class="card">
+  <div class="flag u"><span>Trading at a discount to sector on 2/3 valuation metrics. Quality filters pass: ROE <span class="pass">15.2%</span> · CF Quality <span class="pass">1.1x</span></span></div>
+  <div class="flag t"><span><span class="caps" style="color:var(--fs-signal-trap)">WARNING:</span> ROE is <span class="fail">0.0%</span> (below 10% threshold). Cheap for a reason? Investigate before buying.</span></div>
+  <div class="flag o"><span><span class="caps" style="color:var(--fs-signal-overvalued)">LEVERAGE WARNING:</span> D/E ratio is <span class="fail">2.8x</span> (above 2.0x)</span></div>
+  <div class="flag p"><span><span class="caps" style="color:var(--fs-signal-premium)">NEAR 52-WEEK HIGH:</span> trading in top 10% of range</span></div>
+  <div class="flag n"><span class="fs-meta">Sector note: Tech companies often trade at high P/E; focus on PEG and EV/Revenue for growth names.</span></div>
+</div></body></html>

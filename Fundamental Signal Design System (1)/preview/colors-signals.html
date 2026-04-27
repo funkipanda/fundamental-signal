@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<title>Signal Colors</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html,body{margin:0;background:var(--fs-bg);color:var(--fs-fg);font-family:var(--fs-font-sans);}
+  .card{padding:20px;}
+  .row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+  .sw{background:var(--fs-bg-card);border:1px solid var(--fs-border);border-radius:2px;padding:12px;}
+  .chip{height:36px;border-radius:2px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;font-family:var(--fs-font-mono);font-weight:700;font-size:16px;color:#07090d;}
+  .lbl{font-family:var(--fs-font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--fs-fg-muted);margin-bottom:2px;}
+  .nm{font-family:var(--fs-font-sans);font-size:12px;color:var(--fs-fg-strong);font-weight:600;margin-bottom:4px;}
+  .hex{font-family:var(--fs-font-mono);font-size:10px;color:var(--fs-fg-dim);}
+</style></head>
+<body><div class="card"><div class="row">
+  <div class="sw"><div class="chip" style="background:var(--fs-signal-undervalued)">▼</div><div class="lbl">UNDERVALUED</div><div class="nm">Cheap + quality</div><div class="hex">#3DDC97</div></div>
+  <div class="sw"><div class="chip" style="background:var(--fs-signal-overvalued)">▲</div><div class="lbl">OVERVALUED</div><div class="nm">Expensive, no offset</div><div class="hex">#FF5A6B</div></div>
+  <div class="sw"><div class="chip" style="background:var(--fs-signal-trap)">⚠</div><div class="lbl">VALUE_TRAP</div><div class="nm">Cheap for a reason</div><div class="hex">#F5C84B</div></div>
+  <div class="sw"><div class="chip" style="background:var(--fs-signal-premium)">★</div><div class="lbl">QUALITY_PREMIUM</div><div class="nm">Pricing growth</div><div class="hex">#4ECBE3</div></div>
+  <div class="sw"><div class="chip" style="background:var(--fs-signal-fair);color:#0b0e14">―</div><div class="lbl">FAIR_VALUE</div><div class="nm">Near sector norms</div><div class="hex">#7C86A3</div></div>
+</div></div></body></html>

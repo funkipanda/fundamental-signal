@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<title>Iconography</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html,body{margin:0;background:var(--fs-bg);color:var(--fs-fg);font-family:var(--fs-font-sans);}
+  .card{padding:18px;display:flex;flex-direction:column;gap:14px;}
+  .lbl{font-family:var(--fs-font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--fs-fg-muted);margin-bottom:6px;}
+  .grid{display:flex;gap:14px;flex-wrap:wrap;}
+  .it{display:flex;flex-direction:column;align-items:center;gap:4px;width:70px;}
+  .g{font-family:var(--fs-font-mono);font-size:22px;color:var(--fs-fg-strong);line-height:1;}
+  .n{font-family:var(--fs-font-mono);font-size:9px;color:var(--fs-fg-dim);letter-spacing:0.04em;text-transform:uppercase;}
+  svg.ic{width:20px;height:20px;stroke:var(--fs-fg-strong);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+</style></head>
+<body><div class="card">
+  <div>
+    <div class="lbl">Primary · Unicode glyphs (signals + status)</div>
+    <div class="grid">
+      <div class="it"><div class="g" style="color:var(--fs-signal-undervalued)">▼</div><div class="n">undervalued</div></div>
+      <div class="it"><div class="g" style="color:var(--fs-signal-overvalued)">▲</div><div class="n">overvalued</div></div>
+      <div class="it"><div class="g" style="color:var(--fs-signal-trap)">⚠</div><div class="n">trap</div></div>
+      <div class="it"><div class="g" style="color:var(--fs-signal-premium)">★</div><div class="n">premium</div></div>
+      <div class="it"><div class="g" style="color:var(--fs-signal-fair)">―</div><div class="n">fair</div></div>
+      <div class="it"><div class="g" style="color:var(--fs-signal-undervalued)">✓</div><div class="n">pass</div></div>
+      <div class="it"><div class="g" style="color:var(--fs-signal-overvalued)">✗</div><div class="n">fail</div></div>
+      <div class="it"><div class="g">·</div><div class="n">separator</div></div>
+    </div>
+  </div>
+  <div>
+    <div class="lbl">Secondary · Lucide (chrome)</div>
+    <div class="grid">
+      <div class="it"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><div class="n">search</div></div>
+      <div class="it"><svg class="ic" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg><div class="n">filter</div></div>
+      <div class="it"><svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><div class="n">download</div></div>
+      <div class="it"><svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><div class="n">upload</div></div>
+      <div class="it"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><div class="n">settings</div></div>
+      <div class="it"><svg class="ic" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><div class="n">add</div></div>
+      <div class="it"><svg class="ic" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><div class="n">close</div></div>
+      <div class="it"><svg class="ic" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg><div class="n">chevron</div></div>
+    </div>
+  </div>
+</div></body></html>

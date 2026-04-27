@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<title>Form Inputs</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html,body{margin:0;background:var(--fs-bg);color:var(--fs-fg);font-family:var(--fs-font-sans);}
+  .card{padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .field{display:flex;flex-direction:column;gap:6px;}
+  .lbl{font-family:var(--fs-font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--fs-fg-muted);}
+  .input{background:var(--fs-ink-900);border:1px solid var(--fs-border);border-radius:2px;padding:7px 10px;font-family:var(--fs-font-mono);font-size:12px;color:var(--fs-fg-strong);}
+  .input.focus{border-color:var(--fs-accent);box-shadow:var(--fs-shadow-focus);}
+  .input.err{border-color:var(--fs-signal-overvalued);}
+  .hint{font-family:var(--fs-font-sans);font-size:11px;color:var(--fs-fg-dim);}
+  .hint.err{color:var(--fs-signal-overvalued);}
+  .check{display:flex;align-items:center;gap:8px;font-family:var(--fs-font-sans);font-size:12px;color:var(--fs-fg);}
+  .cb{width:14px;height:14px;border:1px solid var(--fs-border-strong);border-radius:2px;background:var(--fs-ink-900);display:inline-flex;align-items:center;justify-content:center;}
+  .cb.on{background:var(--fs-accent);border-color:var(--fs-accent);color:#07090d;font-family:var(--fs-font-mono);font-size:10px;font-weight:700;}
+</style></head>
+<body><div class="card">
+  <div class="field"><label class="lbl">Ticker</label><input class="input" value="JPM"/></div>
+  <div class="field"><label class="lbl">Ticker (focus)</label><input class="input focus" value="AAPL"/></div>
+  <div class="field"><label class="lbl">Watchlist (error)</label><input class="input err" value="NVDAX"/><span class="hint err">Ticker not found</span></div>
+  <div class="field" style="grid-column:1/-1">
+    <label class="lbl">Options</label>
+    <div style="display:flex;gap:16px;margin-top:4px">
+      <span class="check"><span class="cb on">✓</span>Also write markdown report</span>
+      <span class="check"><span class="cb"></span>Force refresh benchmarks</span>
+      <span class="check"><span class="cb on">✓</span>Compact density</span>
+    </div>
+  </div>
+</div></body></html>

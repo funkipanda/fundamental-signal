@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<title>Radii & Borders</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html,body{margin:0;background:var(--fs-bg);color:var(--fs-fg);font-family:var(--fs-font-sans);}
+  .card{padding:20px;display:flex;gap:24px;align-items:flex-start;}
+  .col{flex:1;}
+  .lbl{font-family:var(--fs-font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--fs-fg-muted);margin-bottom:10px;}
+  .demos{display:flex;gap:10px;}
+  .box{width:64px;height:64px;background:var(--fs-bg-card);display:flex;align-items:center;justify-content:center;font-family:var(--fs-font-mono);font-size:10px;color:var(--fs-fg-muted);}
+  .border-demo{display:flex;flex-direction:column;gap:6px;}
+  .b{padding:6px 10px;font-family:var(--fs-font-mono);font-size:11px;color:var(--fs-fg);}
+</style></head>
+<body><div class="card">
+  <div class="col">
+    <div class="lbl">Radii</div>
+    <div class="demos">
+      <div class="box" style="border:1px solid var(--fs-border);border-radius:0">0</div>
+      <div class="box" style="border:1px solid var(--fs-border);border-radius:2px">2</div>
+      <div class="box" style="border:1px solid var(--fs-border);border-radius:4px">4</div>
+      <div class="box" style="border:1px solid var(--fs-border);border-radius:9999px">full</div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="lbl">Borders</div>
+    <div class="border-demo">
+      <div class="b" style="border:1px solid var(--fs-border-soft)">border-soft · 1D2333</div>
+      <div class="b" style="border:1px solid var(--fs-border)">border · 252C40</div>
+      <div class="b" style="border:1px solid var(--fs-border-strong)">border-strong · 323A52</div>
+      <div class="b" style="border:1px solid var(--fs-accent);box-shadow:var(--fs-shadow-focus)">focus ring</div>
+    </div>
+  </div>
+</div></body></html>

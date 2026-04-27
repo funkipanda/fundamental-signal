@@ -1,0 +1,245 @@
+/* ==========================================================================
+   Fundamental Signal — Core tokens
+   Dark-mode terminal aesthetic. Bloomberg / Koyfin lineage, not Robinhood.
+   ========================================================================== */
+
+/* ---- Web fonts via Google Fonts (see README: substitution flagged) ---- */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap");
+
+:root {
+  /* ---------- Color primitives ---------- */
+  /* Neutral ramp — near-black terminal background up to paper-white text */
+  --fs-black:        #07090d;   /* page bg, darkest */
+  --fs-ink-900:      #0b0e14;   /* app chrome */
+  --fs-ink-800:      #111520;   /* panel */
+  --fs-ink-700:      #161b29;   /* card / raised surface */
+  --fs-ink-600:      #1d2333;   /* hover surface */
+  --fs-ink-500:      #252c40;   /* border, strong */
+  --fs-ink-400:      #323a52;   /* border, focus */
+  --fs-ink-300:      #4a5373;   /* dim text, disabled */
+  --fs-ink-200:      #7c86a3;   /* secondary text */
+  --fs-ink-100:      #b8c0d6;   /* primary text */
+  --fs-ink-050:      #e6eaf5;   /* headings */
+  --fs-white:        #f4f6fb;   /* extreme emphasis */
+
+  /* ---------- Signal colors ---------- */
+  /* These map 1:1 to the 5 classifications. Kept saturation low for data density. */
+  --fs-signal-undervalued:    #3ddc97;   /* green — UNDERVALUED */
+  --fs-signal-undervalued-dim:#1a5c44;
+  --fs-signal-undervalued-bg: rgba(61, 220, 151, 0.08);
+
+  --fs-signal-overvalued:     #ff5a6b;   /* red — OVERVALUED */
+  --fs-signal-overvalued-dim: #6e1c26;
+  --fs-signal-overvalued-bg:  rgba(255, 90, 107, 0.08);
+
+  --fs-signal-trap:           #f5c84b;   /* yellow — VALUE_TRAP */
+  --fs-signal-trap-dim:       #6a5418;
+  --fs-signal-trap-bg:        rgba(245, 200, 75, 0.09);
+
+  --fs-signal-premium:        #4ecbe3;   /* cyan — QUALITY_PREMIUM */
+  --fs-signal-premium-dim:    #1a5664;
+  --fs-signal-premium-bg:     rgba(78, 203, 227, 0.08);
+
+  --fs-signal-fair:           #7c86a3;   /* gray — FAIR_VALUE */
+  --fs-signal-fair-dim:       #3a4258;
+  --fs-signal-fair-bg:        rgba(124, 134, 163, 0.06);
+
+  /* ---------- Semantic UI ---------- */
+  --fs-bg:           var(--fs-black);
+  --fs-bg-panel:     var(--fs-ink-800);
+  --fs-bg-card:      var(--fs-ink-700);
+  --fs-bg-hover:     var(--fs-ink-600);
+
+  --fs-border:       var(--fs-ink-500);
+  --fs-border-soft:  var(--fs-ink-600);
+  --fs-border-strong:var(--fs-ink-400);
+
+  --fs-fg:           var(--fs-ink-100);   /* primary text */
+  --fs-fg-strong:    var(--fs-ink-050);   /* headings */
+  --fs-fg-muted:     var(--fs-ink-200);   /* secondary */
+  --fs-fg-dim:       var(--fs-ink-300);   /* tertiary, captions */
+
+  /* Accent — used sparingly for interactive elements that are NOT signals. */
+  --fs-accent:       #88a8ff;             /* focus ring, links, selected */
+  --fs-accent-bg:    rgba(136, 168, 255, 0.12);
+
+  /* Status (non-signal, for system messages) */
+  --fs-status-ok:    var(--fs-signal-undervalued);
+  --fs-status-warn:  var(--fs-signal-trap);
+  --fs-status-err:   var(--fs-signal-overvalued);
+  --fs-status-info:  var(--fs-signal-premium);
+
+  /* ---------- Numeric delta coloring ---------- */
+  /* For up/down ticks independent of classification */
+  --fs-up:           var(--fs-signal-undervalued);
+  --fs-down:         var(--fs-signal-overvalued);
+
+  /* ---------- Typography ---------- */
+  --fs-font-mono:    "JetBrains Mono", "SF Mono", "Menlo", "Consolas", ui-monospace, monospace;
+  --fs-font-sans:    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Scale — tight, data-dense. No tiny type below 12px. */
+  --fs-text-2xs:     10px;  /* table super-labels, tags */
+  --fs-text-xs:      11px;  /* metadata, captions */
+  --fs-text-sm:      12px;  /* table cells, default dense */
+  --fs-text-base:    13px;  /* body, the working size */
+  --fs-text-md:      14px;  /* emphasised body */
+  --fs-text-lg:      16px;  /* card headers */
+  --fs-text-xl:      20px;  /* panel titles */
+  --fs-text-2xl:     28px;  /* page titles */
+  --fs-text-3xl:     40px;  /* hero numbers */
+
+  --fs-leading-tight: 1.15;
+  --fs-leading-snug:  1.30;
+  --fs-leading-body:  1.45;
+
+  --fs-tracking-caps: 0.08em;  /* ALL-CAPS LABELS — always tracked */
+  --fs-tracking-tight: -0.01em;
+
+  /* ---------- Spacing (4px base, dense) ---------- */
+  --fs-space-1:  4px;
+  --fs-space-2:  8px;
+  --fs-space-3:  12px;
+  --fs-space-4:  16px;
+  --fs-space-5:  20px;
+  --fs-space-6:  24px;
+  --fs-space-8:  32px;
+  --fs-space-10: 40px;
+  --fs-space-12: 48px;
+
+  /* ---------- Radii (sharp; this is a terminal, not a consumer app) ---------- */
+  --fs-radius-none: 0;
+  --fs-radius-sm:   2px;  /* most cards, inputs */
+  --fs-radius-md:   4px;  /* panels, modals */
+  --fs-radius-full: 9999px;
+
+  /* ---------- Shadows (subtle — we rely on borders more than glow) ---------- */
+  --fs-shadow-sm:   0 1px 0 rgba(0, 0, 0, 0.4);
+  --fs-shadow-md:   0 4px 16px rgba(0, 0, 0, 0.45);
+  --fs-shadow-lg:   0 12px 32px rgba(0, 0, 0, 0.55);
+  --fs-shadow-focus:0 0 0 1px var(--fs-accent), 0 0 0 4px var(--fs-accent-bg);
+
+  /* ---------- Motion ---------- */
+  --fs-ease:        cubic-bezier(0.2, 0.8, 0.2, 1);
+  --fs-dur-fast:    80ms;
+  --fs-dur-base:    140ms;
+  --fs-dur-slow:    240ms;
+
+  /* ---------- Grid / layout ---------- */
+  --fs-density-row: 28px;     /* default table row height */
+  --fs-density-row-compact: 24px;
+}
+
+/* ==========================================================================
+   Semantic type roles
+   Use these classes on elements instead of re-declaring styles.
+   ========================================================================== */
+
+.fs-body {
+  font-family: var(--fs-font-sans);
+  font-size: var(--fs-text-base);
+  line-height: var(--fs-leading-body);
+  color: var(--fs-fg);
+}
+
+.fs-h1 {
+  font-family: var(--fs-font-sans);
+  font-size: var(--fs-text-2xl);
+  line-height: var(--fs-leading-tight);
+  letter-spacing: var(--fs-tracking-tight);
+  font-weight: 600;
+  color: var(--fs-fg-strong);
+}
+.fs-h2 {
+  font-family: var(--fs-font-sans);
+  font-size: var(--fs-text-xl);
+  line-height: var(--fs-leading-snug);
+  font-weight: 600;
+  color: var(--fs-fg-strong);
+}
+.fs-h3 {
+  font-family: var(--fs-font-sans);
+  font-size: var(--fs-text-lg);
+  line-height: var(--fs-leading-snug);
+  font-weight: 600;
+  color: var(--fs-fg-strong);
+}
+.fs-h4 {
+  font-family: var(--fs-font-sans);
+  font-size: var(--fs-text-md);
+  line-height: var(--fs-leading-snug);
+  font-weight: 600;
+  color: var(--fs-fg-strong);
+}
+
+/* The workhorse: section eyebrows and column headers. */
+.fs-eyebrow {
+  font-family: var(--fs-font-mono);
+  font-size: var(--fs-text-2xs);
+  font-weight: 500;
+  letter-spacing: var(--fs-tracking-caps);
+  text-transform: uppercase;
+  color: var(--fs-fg-muted);
+}
+
+/* Metadata line: "Sector: Technology | Industry: Semiconductors" */
+.fs-meta {
+  font-family: var(--fs-font-sans);
+  font-size: var(--fs-text-xs);
+  color: var(--fs-fg-muted);
+}
+
+/* All numerics, tickers, IDs. NEVER render numbers in sans. */
+.fs-num {
+  font-family: var(--fs-font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum", "zero";
+}
+.fs-num-lg {
+  font-family: var(--fs-font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-text-3xl);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--fs-fg-strong);
+  font-weight: 500;
+}
+
+/* Ticker symbol — always mono, always bold */
+.fs-ticker {
+  font-family: var(--fs-font-mono);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--fs-fg-strong);
+}
+
+/* Table cell default */
+.fs-cell {
+  font-family: var(--fs-font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-text-sm);
+  color: var(--fs-fg);
+}
+
+/* Plain-English flag text (from flags[] array) */
+.fs-flag {
+  font-family: var(--fs-font-sans);
+  font-size: var(--fs-text-sm);
+  line-height: var(--fs-leading-body);
+  color: var(--fs-fg);
+}
+
+/* System warnings written in CAPS in the data (e.g. "LEVERAGE WARNING:") */
+.fs-flag-caps {
+  font-family: var(--fs-font-mono);
+  font-size: var(--fs-text-xs);
+  font-weight: 700;
+  letter-spacing: var(--fs-tracking-caps);
+  text-transform: uppercase;
+}
+
+/* Code / raw data */
+code, kbd, pre, .fs-code {
+  font-family: var(--fs-font-mono);
+  font-size: 0.95em;
+}

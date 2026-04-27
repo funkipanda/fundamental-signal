@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<title>Buttons</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html,body{margin:0;background:var(--fs-bg);color:var(--fs-fg);font-family:var(--fs-font-sans);}
+  .card{padding:20px;display:flex;flex-direction:column;gap:14px;}
+  .row{display:flex;gap:10px;align-items:center;}
+  .lbl{font-family:var(--fs-font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--fs-fg-muted);min-width:90px;}
+  .btn{font-family:var(--fs-font-sans);font-size:12px;font-weight:500;padding:6px 12px;border-radius:2px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
+  .btn-primary{background:var(--fs-accent);color:#07090d;border-color:var(--fs-accent);}
+  .btn-secondary{background:var(--fs-bg-card);color:var(--fs-fg-strong);border-color:var(--fs-border);}
+  .btn-ghost{background:transparent;color:var(--fs-fg-muted);border-color:transparent;}
+  .btn-danger{background:transparent;color:var(--fs-signal-overvalued);border-color:var(--fs-signal-overvalued-dim);}
+  .btn.hover{background:var(--fs-bg-hover);}
+  .btn.focus{box-shadow:var(--fs-shadow-focus);border-color:var(--fs-accent);}
+  .btn.disabled{opacity:.4;cursor:not-allowed;}
+  .ico{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5;}
+</style></head>
+<body><div class="card">
+  <div class="row"><div class="lbl">Variants</div>
+    <button class="btn btn-primary">Run screen</button>
+    <button class="btn btn-secondary">Export</button>
+    <button class="btn btn-ghost">Cancel</button>
+    <button class="btn btn-danger">Remove ticker</button>
+  </div>
+  <div class="row"><div class="lbl">States</div>
+    <button class="btn btn-secondary">Default</button>
+    <button class="btn btn-secondary hover">Hover</button>
+    <button class="btn btn-secondary focus">Focus</button>
+    <button class="btn btn-secondary disabled">Disabled</button>
+  </div>
+  <div class="row"><div class="lbl">With icons</div>
+    <button class="btn btn-primary"><svg class="ico" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>Run</button>
+    <button class="btn btn-secondary"><svg class="ico" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download .md</button>
+    <button class="btn btn-ghost"><svg class="ico" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add ticker</button>
+  </div>
+</div></body></html>

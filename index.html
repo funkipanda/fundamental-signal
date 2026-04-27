@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Fundamental Signal — Screener</title>
+<link rel="stylesheet" href="/colors_and_type.css"/>
+<style>
+  :root {
+    --page-bg:       #0f0f0f;
+    --card-bg:       #1a1a1a;
+    --card-bg-hover: #1f1f1f;
+    --border:        #2a2a2a;
+    --border-soft:   #222;
+    --text:          #d6d6d6;
+    --text-strong:   #f4f4f4;
+    --text-muted:    #888;
+    --text-dim:      #555;
+    --sig-undervalued: #3ddc97;
+    --sig-undervalued-bg: rgba(61, 220, 151, 0.12);
+    --sig-overvalued:  #ff5a6b;
+    --sig-overvalued-bg: rgba(255, 90, 107, 0.12);
+    --sig-trap:        #f5c84b;
+    --sig-trap-bg:     rgba(245, 200, 75, 0.12);
+    --sig-premium:     #5a8bff;
+    --sig-premium-bg:  rgba(90, 139, 255, 0.14);
+    --sig-fair:        #8a8a8a;
+    --sig-fair-bg:     rgba(138, 138, 138, 0.12);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--page-bg);
+    color: var(--text);
+    font-family: var(--fs-font-sans);
+    font-size: 13px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 28px;
+    border-bottom: 1px solid var(--border);
+    background: var(--page-bg);
+  }
+  .logo {
+    font-family: var(--fs-font-mono);
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+    color: var(--text-strong);
+  }
+  .logo .accent { color: var(--sig-premium); }
+  .date {
+    font-family: var(--fs-font-mono);
+    font-size: 11px; letter-spacing: 0.06em;
+    color: var(--text-muted);
+  }
+  .page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 28px 48px;
+  }
+  .section-head {
+    font-family: var(--fs-font-mono);
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .input-bar { margin-bottom: 28px; }
+  .input-row {
+    display: flex; gap: 0;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .input-row input {
+    flex: 1;
+    background: transparent;
+    border: 0; outline: 0;
+    padding: 12px 14px;
+    font-family: var(--fs-font-mono);
+    font-size: 13px; letter-spacing: 0.02em;
+    color: var(--text-strong);
+  }
+  .input-row input::placeholder { color: var(--text-dim); }
+  .input-row input:focus { background: rgba(90, 139, 255, 0.04); }
+  .input-row button {
+    padding: 0 22px;
+    background: var(--sig-premium);
+    color: #0a0a0a;
+    font-family: var(--fs-font-sans);
+    font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+    border: 0; cursor: pointer;
+    border-left: 1px solid var(--border);
+    transition: filter 0.1s;
+    min-width: 100px;
+  }
+  .input-row button:hover { filter: brightness(1.08); }
+  .input-row button:active { filter: brightness(0.92); }
+  .input-row button:disabled { filter: brightness(0.6); cursor: not-allowed; }
+  .bench-note {
+    margin-top: 8px;
+    font-family: var(--fs-font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .bench-note .dot {
+    display: inline-block; width: 5px; height: 5px;
+    background: var(--sig-premium); border-radius: 50%;
+    margin-right: 6px; vertical-align: 2px;
+  }
+  .status-bar {
+    font-family: var(--fs-font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    padding: 10px 0;
+    min-height: 32px;
+  }
+  .status-bar .spinner {
+    display: inline-block; width: 12px; height: 12px;
+    border: 2px solid var(--border); border-top-color: var(--sig-premium);
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+    vertical-align: -2px; margin-right: 8px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .table-wrap {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  table.screen {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--fs-font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 12.5px;
+  }
+  table.screen thead th {
+    text-align: left;
+    padding: 10px 14px;
+    font-family: var(--fs-font-mono);
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted);
+    background: #141414;
+    border-bottom: 1px solid var(--border);
+  }
+  table.screen thead th.num { text-align: right; }
+  table.screen tbody td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border-soft);
+    vertical-align: middle;
+  }
+  table.screen tbody tr:last-child td { border-bottom: 0; }
+  table.screen tbody tr:hover { background: var(--card-bg-hover); }
+  table.screen tbody td.num { text-align: right; }
+  .tk { font-weight: 700; color: var(--text-strong); letter-spacing: 0.03em; }
+  .nm { font-family: var(--fs-font-sans); color: var(--text-muted); font-size: 12px; }
+  .sector-sub { color: var(--text-dim); font-size: 11px; }
+  .na { color: var(--text-dim); }
+  .cheap { color: var(--sig-undervalued); }
+  .expensive { color: var(--sig-overvalued); }
+  .badge {
+    display: inline-flex; align-items: center;
+    padding: 3px 9px;
+    border-radius: 2px;
+    font-family: var(--fs-font-mono);
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .badge.u { background: var(--sig-undervalued-bg); color: var(--sig-undervalued); box-shadow: inset 0 0 0 1px rgba(61, 220, 151, 0.35); }
+  .badge.o { background: var(--sig-overvalued-bg);  color: var(--sig-overvalued);  box-shadow: inset 0 0 0 1px rgba(255, 90, 107, 0.35); }
+  .badge.t { background: var(--sig-trap-bg);        color: var(--sig-trap);        box-shadow: inset 0 0 0 1px rgba(245, 200, 75, 0.35); }
+  .badge.p { background: var(--sig-premium-bg);     color: var(--sig-premium);     box-shadow: inset 0 0 0 1px rgba(90, 139, 255, 0.35); }
+  .badge.f { background: var(--sig-fair-bg);        color: var(--sig-fair);        box-shadow: inset 0 0 0 1px rgba(138, 138, 138, 0.35); }
+  .conf {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--fs-font-mono);
+    font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .conf .bar { display: inline-flex; gap: 2px; }
+  .conf .bar i { width: 3px; height: 10px; display: inline-block; background: #2e2e2e; }
+  .conf.high .bar i:nth-child(-n+3) { background: var(--sig-undervalued); }
+  .conf.med  .bar i:nth-child(-n+2) { background: var(--sig-trap); }
+  .conf.low  .bar i:nth-child(-n+1) { background: var(--text-dim); }
+  .detail-cards { margin-top: 32px; display: flex; flex-direction: column; gap: 12px; }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .card-head {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.1s;
+  }
+  .card-head:hover { background: #1c1c1c; }
+  .card-head .chev {
+    width: 14px; height: 14px;
+    color: var(--text-muted);
+    transition: transform 0.15s ease;
+    flex: 0 0 auto;
+  }
+  .card.open .card-head .chev { transform: rotate(90deg); }
+  .card-head .tk { font-size: 16px; }
+  .card-head .nm { flex: 1; }
+  .card-head .price {
+    font-family: var(--fs-font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 14px; font-weight: 500;
+    color: var(--text-strong);
+  }
+  .card-body {
+    display: none;
+    padding: 4px 18px 18px;
+    border-top: 1px solid var(--border-soft);
+  }
+  .card.open .card-body { display: block; }
+  .col-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.2fr;
+    gap: 24px;
+    padding: 16px 0 14px;
+  }
+  .col .col-head {
+    font-family: var(--fs-font-mono);
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .val-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    column-gap: 10px;
+    align-items: baseline;
+    padding: 5px 0;
+    font-family: var(--fs-font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 12px;
+  }
+  .val-row + .val-row { border-top: 1px dashed var(--border-soft); }
+  .val-row .k { color: var(--text); font-size: 11.5px; }
+  .val-row .v { color: var(--text-strong); font-weight: 500; min-width: 52px; text-align: right; }
+  .val-row .sv { color: var(--text-dim); font-size: 11px; min-width: 48px; text-align: right; }
+  .val-row .ar { font-size: 11px; font-weight: 700; width: 14px; text-align: center; }
+  .ar.down { color: var(--sig-undervalued); }
+  .ar.up { color: var(--sig-overvalued); }
+  .ar.flat { color: var(--text-dim); }
+  .q-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    column-gap: 10px;
+    align-items: baseline;
+    padding: 5px 0;
+    font-family: var(--fs-font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 12px;
+  }
+  .q-row + .q-row { border-top: 1px dashed var(--border-soft); }
+  .q-row .k { color: var(--text); font-size: 11.5px; }
+  .q-row .v { color: var(--text-strong); font-weight: 500; min-width: 54px; text-align: right; }
+  .q-row .ico { width: 14px; text-align: center; font-weight: 700; }
+  .ico.pass { color: var(--sig-undervalued); }
+  .ico.fail { color: var(--sig-overvalued); }
+  .ico.na { color: var(--text-dim); }
+  .range {
+    margin-top: 14px;
+    position: relative;
+    height: 6px;
+    background: #2e2e2e;
+    border-radius: 1px;
+  }
+  .range .ma {
+    position: absolute; top: -3px;
+    width: 2px; height: 12px;
+    background: var(--text-dim);
+  }
+  .range .ma.ma50 { background: var(--text-muted); }
+  .range .cur {
+    position: absolute; top: -4px;
+    width: 2px; height: 14px;
+    background: var(--sig-premium);
+    transform: translateX(-1px);
+  }
+  .range .cur::before {
+    content: "";
+    position: absolute; left: 50%; top: -3px;
+    width: 8px; height: 8px;
+    background: var(--sig-premium);
+    transform: translate(-50%, 0) rotate(45deg);
+  }
+  .range .cur-label {
+    position: absolute;
+    bottom: 16px;
+    transform: translateX(-50%);
+    padding: 1px 5px;
+    background: var(--card-bg);
+    border: 1px solid var(--sig-premium);
+    border-radius: 2px;
+    font-family: var(--fs-font-mono);
+    font-size: 10px;
+    color: var(--sig-premium);
+    white-space: nowrap;
+    z-index: 2;
+  }
+  .range .cur-label.clamp-right { transform: translateX(-100%); }
+  .range .cur-label.clamp-left  { transform: translateX(0); }
+  .range-meta {
+    display: flex; justify-content: space-between;
+    margin-top: 10px;
+    font-family: var(--fs-font-mono);
+    font-size: 10.5px;
+    color: var(--text-dim);
+  }
+  .range-legend {
+    margin-top: 14px;
+    display: flex; gap: 16px;
+    font-family: var(--fs-font-mono);
+    font-size: 10.5px;
+    color: var(--text-muted);
+  }
+  .range-legend .sw { display: inline-block; width: 10px; height: 2px; margin-right: 6px; vertical-align: middle; }
+  .range-legend .sw.ma50 { background: var(--text-muted); }
+  .range-legend .sw.ma200 { background: var(--text-dim); }
+  .range-legend .sw.cur { background: var(--sig-premium); }
+  .flags {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-soft);
+  }
+  .flags-head {
+    font-family: var(--fs-font-mono);
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .flag-item {
+    display: flex; align-items: baseline; gap: 10px;
+    padding: 5px 0;
+    font-family: var(--fs-font-sans);
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+  .flag-item .bullet {
+    flex: 0 0 4px;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    transform: translateY(6px);
+  }
+  .flag-item.u .bullet { background: var(--sig-undervalued); }
+  .flag-item.o .bullet { background: var(--sig-overvalued); }
+  .flag-item.t .bullet { background: var(--sig-trap); }
+  .flag-item.p .bullet { background: var(--sig-premium); }
+  .sector-note {
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: rgba(90, 139, 255, 0.06);
+    border-left: 2px solid var(--sig-premium);
+    font-family: var(--fs-font-sans);
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .sector-note .lbl {
+    font-family: var(--fs-font-mono);
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--sig-premium);
+    margin-right: 6px;
+  }
+  /* Mode toggle */
+  .mode-toggle {
+    display: flex; gap: 0;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    width: fit-content;
+  }
+  .mode-toggle button {
+    padding: 8px 20px;
+    background: var(--card-bg);
+    color: var(--text-muted);
+    font-family: var(--fs-font-mono);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    border: 0; cursor: pointer;
+    transition: all 0.1s;
+  }
+  .mode-toggle button + button { border-left: 1px solid var(--border); }
+  .mode-toggle button:hover { color: var(--text); background: var(--card-bg-hover); }
+  .mode-toggle button.active {
+    background: var(--sig-premium);
+    color: #0a0a0a;
+    font-weight: 700;
+  }
+  /* Magic Formula rank badge */
+  .rank-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px;
+    border-radius: 2px;
+    font-family: var(--fs-font-mono);
+    font-size: 13px; font-weight: 700;
+    color: var(--text-strong);
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+  }
+  .rank-badge.top3 { background: var(--sig-undervalued-bg); color: var(--sig-undervalued); border-color: rgba(61, 220, 151, 0.35); }
+  .rank-badge.excluded { color: var(--text-dim); font-size: 11px; width: auto; padding: 0 8px; }
+  .mf-metric {
+    font-family: var(--fs-font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .mf-metric .val { color: var(--text-strong); font-weight: 500; }
+  .mf-metric .rk { color: var(--text-muted); font-size: 10px; }
+  .mf-excluded-note {
+    padding: 6px 14px;
+    font-family: var(--fs-font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    font-style: italic;
+  }
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-dim);
+    font-family: var(--fs-font-mono);
+    font-size: 12px;
+  }
+  .error-item {
+    padding: 8px 14px;
+    background: var(--sig-overvalued-bg);
+    border: 1px solid rgba(255, 90, 107, 0.2);
+    border-radius: 2px;
+    margin-bottom: 8px;
+    font-family: var(--fs-font-mono);
+    font-size: 12px;
+    color: var(--sig-overvalued);
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">FUNDAMENTAL <span class="accent">SIGNAL</span></div>
+  <div class="date" id="topDate"></div>
+</div>
+
+<div class="page">
+
+  <div class="mode-toggle">
+    <button class="active" id="modeScreen" onclick="setMode('screen')">Screener</button>
+    <button id="modeMF" onclick="setMode('magic')">Magic Formula</button>
+  </div>
+
+  <section class="input-bar">
+    <div class="input-row">
+      <input id="tickerInput" value="AAPL, MSFT, JPM, INTC, XOM" placeholder="Enter tickers, comma-separated (e.g. AAPL, MSFT, JPM)"/>
+      <button id="loadSP500" style="padding:0 16px;background:transparent;color:var(--text-muted);font-size:11px;border-left:1px solid var(--border);white-space:nowrap" onclick="loadSP500()">Load S&P 500</button>
+      <button id="screenBtn">Screen</button>
+    </div>
+    <div class="bench-note" id="benchNote"><span class="dot"></span>Benchmarks: Damodaran NYU Stern (Jan 2026)</div>
+  </section>
+
+  <div id="statusBar" class="status-bar"></div>
+
+  <section id="resultsSection" style="display:none">
+    <div class="section-head" id="resultHead">Screen results</div>
+    <div class="table-wrap">
+      <table class="screen">
+        <thead>
+          <tr>
+            <th>Ticker</th>
+            <th>Name</th>
+            <th>Signal</th>
+            <th>Confidence</th>
+            <th class="num">Fwd P/E <span style="color:var(--text-dim);font-weight:400">(sector)</span></th>
+            <th class="num">EV/EBITDA <span style="color:var(--text-dim);font-weight:400">(sector)</span></th>
+            <th class="num">FCF Yield</th>
+            <th class="num">ROE</th>
+            <th class="num">D/E</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="detail-cards" id="detailCards"></section>
+
+  <!-- Magic Formula results (hidden by default) -->
+  <section id="mfSection" style="display:none">
+    <div class="section-head" id="mfHead">Magic Formula ranking</div>
+    <div class="table-wrap">
+      <table class="screen">
+        <thead>
+          <tr>
+            <th style="width:50px">Rank</th>
+            <th>Ticker</th>
+            <th>Name</th>
+            <th class="num">FCFF</th>
+            <th class="num">ROIC<br><span style="color:var(--text-dim);font-weight:400;font-size:9px">FCFF / Inv. Capital</span></th>
+            <th class="num">Earnings Yield<br><span style="color:var(--text-dim);font-weight:400;font-size:9px">FCFF / EV</span></th>
+            <th class="num">Combined<br><span style="color:var(--text-dim);font-weight:400;font-size:9px">Sum of ranks</span></th>
+          </tr>
+        </thead>
+        <tbody id="mfBody"></tbody>
+      </table>
+    </div>
+    <div style="margin-top:12px;font-family:var(--fs-font-mono);font-size:10px;color:var(--text-dim);line-height:1.6">
+      FCFF = Operating Cash Flow − CapEx (proxy for Free Cash Flow to the Firm)<br>
+      ROIC = FCFF / Invested Capital, where Invested Capital = NWC + Net PP&E (Greenblatt definition, excludes goodwill)<br>
+      Earnings Yield = FCFF / Enterprise Value<br>
+      Financial sector excluded (structural leverage distorts ROIC). Negative FCFF excluded (not generating cash).<br>
+      Data: Yahoo Finance (TTM fundamentals, most recent quarterly balance sheet). Sector benchmarks: Damodaran NYU Stern (Jan 2026).
+    </div>
+  </section>
+
+</div>
+
+<script>
+const SIG_CLS = { UNDERVALUED: "u", VALUE_TRAP: "t", OVERVALUED: "o", QUALITY_PREMIUM: "p", FAIR_VALUE: "f" };
+const fmtX = (v, d=1) => v == null ? '<span class="na">N/A</span>' : `${v.toFixed(d)}x`;
+const fmtPct = (v, d=1) => v == null ? '<span class="na">N/A</span>' : `${(v*100).toFixed(d)}%`;
+const fmtUSD = (v) => v == null ? "—" : `$${v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}`;
+
+document.getElementById("topDate").textContent = new Date().toLocaleDateString("en-US", {
+  year: "numeric", month: "short", day: "2-digit"
+}).toUpperCase();
+
+function cellVsSector(v, sector, dir = "lower") {
+  if (v == null) return '<span class="na">N/A</span>';
+  if (sector == null) return `${v.toFixed(1)}x`;
+  const fav = dir === "lower" ? (sector - v) / sector : (v - sector) / sector;
+  let cls = "";
+  if (fav > 0.10) cls = "cheap";
+  else if (fav < -0.10) cls = "expensive";
+  return `<span class="${cls}">${v.toFixed(1)}x</span> <span style="color:var(--text-dim)">(${Math.round(sector)})</span>`;
+}
+
+function confPill(conf) {
+  const lvl = conf === "high" ? "high" : conf === "medium" ? "med" : "low";
+  return `<span class="conf ${lvl}"><span class="bar"><i></i><i></i><i></i></span>${conf}</span>`;
+}
+
+function valRow(label, stock, sector, dir = "lower", fmt = "x") {
+  const format = (v) => v == null ? null : (fmt === "%" ? `${(v*100).toFixed(1)}%` : `${v.toFixed(1)}x`);
+  if (stock == null) return `<div class="val-row"><span class="k">${label}</span><span class="v na">N/A</span><span class="sv"></span><span class="ar flat">―</span></div>`;
+  let arrow = "flat", ar = "―";
+  if (sector != null) {
+    const fav = dir === "lower" ? (sector - stock) / sector : (stock - sector) / sector;
+    if (fav > 0.10) { arrow = "down"; ar = "▼"; }
+    else if (fav < -0.10) { arrow = "up"; ar = "▲"; }
+  }
+  return `<div class="val-row"><span class="k">${label}</span><span class="v">${format(stock)}</span><span class="sv">${sector != null ? `vs ${Math.round(sector)}` : "—"}</span><span class="ar ${arrow}">${ar}</span></div>`;
+}
+
+function qRow(label, value, pass, fmt = "x") {
+  let v;
+  if (value == null) v = '<span class="na">N/A</span>';
+  else if (fmt === "%") v = `${(value*100).toFixed(1)}%`;
+  else v = `${value.toFixed(1)}x`;
+  const ico = pass === "pass" ? '<span class="ico pass">✓</span>'
+            : pass === "fail" ? '<span class="ico fail">✗</span>'
+            : '<span class="ico na">―</span>';
+  return `<div class="q-row"><span class="k">${label}</span><span class="v">${v}</span>${ico}</div>`;
+}
+
+function renderRange(r) {
+  const rng = r.range52;
+  if (!rng || rng.low == null || rng.high == null || rng.high === rng.low) return '<div style="color:var(--text-dim)">No range data</div>';
+  const pos = Math.max(0, Math.min(100, ((r.price - rng.low) / (rng.high - rng.low)) * 100));
+  const ma50 = rng.ma50 ? ((rng.ma50 - rng.low) / (rng.high - rng.low)) * 100 : null;
+  const ma200 = rng.ma200 ? ((rng.ma200 - rng.low) / (rng.high - rng.low)) * 100 : null;
+  return `
+    <div class="range">
+      ${ma200 != null ? `<div class="ma ma200" style="left:${ma200}%"></div>` : ""}
+      ${ma50 != null ? `<div class="ma ma50" style="left:${ma50}%"></div>` : ""}
+      <div class="cur" style="left:${pos}%"><div class="cur-label ${pos > 88 ? 'clamp-right' : pos < 12 ? 'clamp-left' : ''}">${fmtUSD(r.price)}</div></div>
+    </div>
+    <div class="range-meta">
+      <span>${fmtUSD(rng.low)}</span>
+      <span>${pos.toFixed(0)}% of range</span>
+      <span>${fmtUSD(rng.high)}</span>
+    </div>
+    <div class="range-legend">
+      <span><span class="sw cur"></span>Current</span>
+      ${rng.ma50 ? `<span><span class="sw ma50"></span>50d MA · ${fmtUSD(rng.ma50)}</span>` : ""}
+      ${rng.ma200 ? `<span><span class="sw ma200"></span>200d MA · ${fmtUSD(rng.ma200)}</span>` : ""}
+    </div>`;
+}
+
+function renderCard(r, idx) {
+  const m = r.metrics;
+  const sig = SIG_CLS[r.classification] || "f";
+  const roePass = m.roe == null ? "na" : m.roe >= 0.10 ? "pass" : "fail";
+  const cfPass = m.cf_quality == null ? "na" : m.cf_quality >= 0.8 ? "pass" : "fail";
+  const dePass = m.suppressed_de ? "na" : m.debt_equity == null ? "na" : m.debt_equity <= 2.0 ? "pass" : "fail";
+
+  return `
+    <div class="card${idx === 0 ? " open" : ""}">
+      <div class="card-head" onclick="this.closest('.card').classList.toggle('open')">
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        <span class="tk">${r.ticker}</span>
+        <span class="badge ${sig}">${r.classification.replace(/_/g," ")}</span>
+        <span class="nm">${r.name || ""}</span>
+        <span class="price">${fmtUSD(r.price)}</span>
+      </div>
+      <div class="card-body">
+        <div style="font-size:11px;color:var(--text-dim);margin-bottom:4px">
+          ${r.sector || ""} · ${r.industry || ""}${r.benchmarkMatch ? ` · Benchmark: ${r.benchmarkMatch} (${r.benchmarkSource})` : ""}
+        </div>
+        <div class="col-row">
+          <div class="col">
+            <div class="col-head">Valuation vs sector</div>
+            ${valRow("Forward P/E", m.forward_pe, m.forward_pe_sector, "lower")}
+            ${m.suppressed_ev
+              ? '<div class="val-row"><span class="k">EV/EBITDA</span><span class="v na">N/A</span><span class="sv" style="font-size:10.5px">suppressed</span><span class="ar flat">―</span></div>'
+              : valRow("EV/EBITDA", m.ev_ebitda, m.ev_ebitda_sector, "lower")}
+            ${m.suppressed_fcf
+              ? '<div class="val-row"><span class="k">FCF Yield</span><span class="v na">N/A</span><span class="sv" style="font-size:10.5px">suppressed</span><span class="ar flat">―</span></div>'
+              : `<div class="val-row"><span class="k">FCF Yield</span><span class="v ${m.fcf_yield != null && m.fcf_yield < 0 ? 'expensive' : ''}">${m.fcf_yield == null ? '<span class="na">N/A</span>' : (m.fcf_yield*100).toFixed(1)+'%'}</span><span class="sv">vs 5.0%</span><span class="ar ${m.fcf_yield != null && m.fcf_yield >= 0.05 ? 'down' : m.fcf_yield != null && m.fcf_yield < 0.02 ? 'up' : 'flat'}">${m.fcf_yield != null && m.fcf_yield >= 0.05 ? '▼' : m.fcf_yield != null && m.fcf_yield < 0.02 ? '▲' : '―'}</span></div>`}
+          </div>
+          <div class="col">
+            <div class="col-head">Quality</div>
+            ${qRow("ROE", m.roe, roePass, "%")}
+            ${qRow("CF Quality", m.cf_quality, cfPass, "x")}
+            ${qRow("D/E", m.suppressed_de ? null : m.debt_equity, dePass, "x")}
+          </div>
+          <div class="col">
+            <div class="col-head">Price context · 52-week</div>
+            ${renderRange(r)}
+          </div>
+        </div>
+        ${r.flags && r.flags.length ? `
+          <div class="flags">
+            <div class="flags-head">Flags</div>
+            ${r.flags.map(f => `<div class="flag-item ${f.kind}"><span class="bullet"></span><span>${f.text}</span></div>`).join("")}
+          </div>` : ""}
+        ${r.sectorNote ? `<div class="sector-note"><span class="lbl">Sector note</span>${r.sectorNote}</div>` : ""}
+      </div>
+    </div>`;
+}
+
+function renderResults(data) {
+  const results = data.results.filter(r => !r.error);
+  const errors = data.results.filter(r => r.error);
+
+  document.getElementById("resultHead").textContent = `Screen results · ${results.length} ticker${results.length !== 1 ? "s" : ""}`;
+  document.getElementById("resultsSection").style.display = "block";
+
+  // Table
+  document.getElementById("tbody").innerHTML = results.map(r => {
+    const m = r.metrics;
+    const sig = SIG_CLS[r.classification] || "f";
+    return `<tr>
+      <td class="tk">${r.ticker}</td>
+      <td><div class="nm">${r.name || ""}</div><div class="sector-sub">${r.sector || ""}</div></td>
+      <td><span class="badge ${sig}">${r.classification.replace(/_/g," ")}</span></td>
+      <td>${confPill(r.confidence)}</td>
+      <td class="num">${cellVsSector(m.forward_pe, m.forward_pe_sector)}</td>
+      <td class="num">${m.suppressed_ev ? '<span class="na">N/A</span>' : cellVsSector(m.ev_ebitda, m.ev_ebitda_sector)}</td>
+      <td class="num">${m.suppressed_fcf ? '<span class="na">N/A</span>' : (m.fcf_yield == null ? '<span class="na">N/A</span>' : `<span class="${m.fcf_yield < 0 ? 'expensive' : ''}">${(m.fcf_yield*100).toFixed(1)}%</span>`)}</td>
+      <td class="num">${fmtPct(m.roe)}</td>
+      <td class="num">${m.suppressed_de ? '<span class="na">N/A</span>' : fmtX(m.debt_equity)}</td>
+    </tr>`;
+  }).join("");
+
+  // Detail cards
+  const interesting = results.filter(r => r.classification !== "FAIR_VALUE");
+  let cardsHtml = "";
+  if (errors.length) {
+    cardsHtml += errors.map(e => `<div class="error-item">Failed to fetch: ${e.ticker}</div>`).join("");
+  }
+  cardsHtml += interesting.map((r, i) => renderCard(r, i)).join("");
+  document.getElementById("detailCards").innerHTML = cardsHtml;
+}
+
+async function loadSP500() {
+  const btn = document.getElementById("loadSP500");
+  btn.textContent = "Loading…";
+  btn.style.color = "var(--sig-premium)";
+  try {
+    const resp = await fetch("/api/sp500");
+    const data = await resp.json();
+    document.getElementById("tickerInput").value = data.tickers.join(", ");
+    btn.textContent = `${data.count} loaded`;
+    setTimeout(() => { btn.textContent = "Load S&P 500"; btn.style.color = "var(--text-muted)"; }, 2000);
+  } catch (err) {
+    btn.textContent = "Failed";
+    btn.style.color = "var(--sig-overvalued)";
+    setTimeout(() => { btn.textContent = "Load S&P 500"; btn.style.color = "var(--text-muted)"; }, 2000);
+  }
+}
+
+let currentMode = "screen";
+
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById("modeScreen").classList.toggle("active", mode === "screen");
+  document.getElementById("modeMF").classList.toggle("active", mode === "magic");
+  document.getElementById("benchNote").style.display = mode === "screen" ? "block" : "none";
+  // Hide both result sections
+  document.getElementById("resultsSection").style.display = "none";
+  document.getElementById("detailCards").innerHTML = "";
+  document.getElementById("mfSection").style.display = "none";
+  document.getElementById("statusBar").innerHTML = "";
+}
+
+function renderMagicFormula(data) {
+  const results = data.results;
+  const ranked = results.filter(r => !r.excluded);
+  const excluded = results.filter(r => r.excluded);
+
+  document.getElementById("mfHead").textContent = `Magic Formula ranking · ${ranked.length} ranked, ${excluded.length} excluded`;
+  document.getElementById("mfSection").style.display = "block";
+
+  function mfCell(val, rank, total, fmt = "%") {
+    if (val == null) return '<span class="na">N/A</span>';
+    const v = fmt === "%" ? `${(val * 100).toFixed(1)}%` : val;
+    const rkStr = rank ? `<span class="mf-metric rk">#${rank}/${total}</span>` : "";
+    return `<span class="mf-metric"><span class="val">${v}</span> ${rkStr}</span>`;
+  }
+
+  document.getElementById("mfBody").innerHTML = ranked.map(r => {
+    const pos = r.position;
+    const badgeCls = pos <= 3 ? "top3" : "";
+    return `<tr>
+      <td><span class="rank-badge ${badgeCls}">${pos}</span></td>
+      <td class="tk">${r.ticker}</td>
+      <td><div class="nm">${r.name || ""}</div><div class="sector-sub">${r.sector || ""}</div></td>
+      <td class="num" style="color:${r.fcff > 0 ? 'var(--sig-undervalued)' : 'var(--sig-overvalued)'}">${r.fcff_display || "N/A"}</td>
+      <td class="num">${mfCell(r.roic, r.roic_rank, r.total_ranked)}</td>
+      <td class="num">${mfCell(r.earnings_yield, r.ey_rank, r.total_ranked)}</td>
+      <td class="num" style="font-weight:700;color:var(--text-strong)">${r.combined_rank}</td>
+    </tr>`;
+  }).join("") + excluded.map(r => `<tr style="opacity:0.4">
+      <td><span class="rank-badge excluded">—</span></td>
+      <td class="tk">${r.ticker}</td>
+      <td><div class="nm">${r.name || ""}</div><div class="sector-sub">${r.sector || ""}</div></td>
+      <td class="num">${r.fcff_display || "N/A"}</td>
+      <td class="num na" colspan="4" style="text-align:left;font-size:11px">${r.exclude_reason || "excluded"}</td>
+    </tr>`).join("");
+}
+
+async function runAction() {
+  const input = document.getElementById("tickerInput").value;
+  const tickers = input.split(/[,\s]+/).map(t => t.trim().toUpperCase()).filter(Boolean);
+  if (!tickers.length) return;
+
+  const btn = document.getElementById("screenBtn");
+  const status = document.getElementById("statusBar");
+  const label = currentMode === "screen" ? "Screening" : "Ranking";
+  const endpoint = currentMode === "screen" ? "/api/screen" : "/api/magic-formula";
+
+  btn.disabled = true;
+  btn.textContent = "Running…";
+  status.innerHTML = `<span class="spinner"></span>${label} ${tickers.length} ticker${tickers.length > 1 ? "s" : ""}… (~${tickers.length * 2}s)`;
+  document.getElementById("resultsSection").style.display = "none";
+  document.getElementById("detailCards").innerHTML = "";
+  document.getElementById("mfSection").style.display = "none";
+
+  try {
+    const resp = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tickers }),
+    });
+    const data = await resp.json();
+    status.innerHTML = "";
+    if (currentMode === "screen") {
+      renderResults(data);
+    } else {
+      renderMagicFormula(data);
+    }
+  } catch (err) {
+    status.innerHTML = `<span style="color:var(--sig-overvalued)">Error: ${err.message}</span>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Screen";
+  }
+}
+
+document.getElementById("screenBtn").addEventListener("click", runAction);
+document.getElementById("tickerInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") runAction();
+});
+
+// Auto-run on load
+runAction();
+</script>
+</body>
+</html>

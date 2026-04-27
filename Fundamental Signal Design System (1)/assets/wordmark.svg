@@ -1,0 +1,15 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 48" fill="none" font-family="JetBrains Mono, monospace">
+  
+  <g transform="translate(0,4)">
+    <rect width="40" height="40" rx="3" fill="#0b0e14" stroke="#252c40"></rect>
+    <line x1="20" y1="6" x2="20" y2="34" stroke="#4a5373" stroke-width="1.2"></line>
+    <line x1="16" y1="28" x2="24" y2="28" stroke="#3ddc97" stroke-width="1.5"></line>
+    <line x1="13" y1="20" x2="27" y2="20" stroke="#7c86a3" stroke-width="1.5"></line>
+    <line x1="16" y1="12" x2="24" y2="12" stroke="#ff5a6b" stroke-width="1.5"></line>
+    <circle cx="20" cy="15" r="2" fill="#4ecbe3"></circle>
+  </g>
+  
+  <text x="52" y="22" font-size="14" font-weight="700" fill="#e6eaf5" letter-spacing="0.5">FUNDAMENTAL</text>
+  <text x="52" y="40" font-size="14" font-weight="400" fill="#4ecbe3" letter-spacing="0.5">SIGNAL</text>
+</svg>

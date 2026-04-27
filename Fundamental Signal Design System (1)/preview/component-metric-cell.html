@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<title>Metric Cell (vs sector)</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html,body{margin:0;background:var(--fs-bg);color:var(--fs-fg);font-family:var(--fs-font-sans);}
+  .card{padding:20px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+  .metric{background:var(--fs-bg-card);border:1px solid var(--fs-border);border-radius:2px;padding:12px 14px;}
+  .lbl{font-family:var(--fs-font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--fs-fg-muted);}
+  .row{display:flex;align-items:baseline;justify-content:space-between;margin-top:6px;}
+  .v{font-family:var(--fs-font-mono);font-variant-numeric:tabular-nums;font-size:20px;font-weight:500;color:var(--fs-fg-strong);}
+  .vs{font-family:var(--fs-font-mono);font-size:11px;color:var(--fs-fg-muted);}
+  .d{font-family:var(--fs-font-mono);font-size:11px;font-weight:700;margin-top:4px;}
+  .u{color:var(--fs-signal-undervalued);}
+  .o{color:var(--fs-signal-overvalued);}
+  .n{color:var(--fs-fg-muted);}
+  .bar{height:2px;background:var(--fs-ink-500);margin-top:8px;position:relative;}
+  .bar::after{content:'';position:absolute;top:0;height:2px;background:currentColor;}
+</style></head>
+<body><div class="card">
+  <div class="metric"><div class="lbl">Forward P/E</div>
+    <div class="row"><div class="v">10.2x</div><div class="vs">vs. 13.0x sector</div></div>
+    <div class="d u">▼ 21.5% below sector · cheap</div>
+    <div class="bar u" style="color:var(--fs-signal-undervalued)"><style>.bar.u::after{left:0;width:60%}</style></div>
+  </div>
+  <div class="metric"><div class="lbl">EV/EBITDA</div>
+    <div class="row"><div class="v">27.5x</div><div class="vs">vs. 22.0x sector</div></div>
+    <div class="d o">▲ 25.0% above sector · expensive</div>
+  </div>
+  <div class="metric"><div class="lbl">FCF Yield</div>
+    <div class="row"><div class="v">8.1%</div><div class="vs">vs. 5.0% baseline</div></div>
+    <div class="d u">▼ 62% above baseline · rich cash</div>
+  </div>
+  <div class="metric"><div class="lbl">EV/EBITDA · Suppressed</div>
+    <div class="row"><div class="v n">N/A</div><div class="vs">Financial Services</div></div>
+    <div class="d n">― Not applicable for banks</div>
+  </div>
+</div></body></html>

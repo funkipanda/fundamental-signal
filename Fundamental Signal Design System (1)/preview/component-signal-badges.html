@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<title>Signal Badges</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html,body{margin:0;background:var(--fs-bg);color:var(--fs-fg);font-family:var(--fs-font-sans);}
+  .card{padding:20px;display:flex;flex-direction:column;gap:14px;}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  .lbl{font-family:var(--fs-font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--fs-fg-muted);min-width:80px;}
+  .badge{display:inline-flex;align-items:center;gap:6px;padding:3px 8px;border-radius:2px;font-family:var(--fs-font-mono);font-size:11px;font-weight:700;letter-spacing:0.04em;}
+  .conf{display:inline-flex;align-items:center;gap:4px;padding:2px 6px;border:1px solid var(--fs-border);border-radius:2px;font-family:var(--fs-font-mono);font-size:10px;color:var(--fs-fg-muted);text-transform:uppercase;letter-spacing:0.08em;}
+</style></head>
+<body><div class="card">
+  <div class="row"><div class="lbl">Solid</div>
+    <span class="badge" style="background:var(--fs-signal-undervalued);color:#07090d">▼ UNDERVALUED</span>
+    <span class="badge" style="background:var(--fs-signal-overvalued);color:#07090d">▲ OVERVALUED</span>
+    <span class="badge" style="background:var(--fs-signal-trap);color:#07090d">⚠ VALUE_TRAP</span>
+    <span class="badge" style="background:var(--fs-signal-premium);color:#07090d">★ QUALITY_PREMIUM</span>
+    <span class="badge" style="background:var(--fs-signal-fair);color:#07090d">― FAIR_VALUE</span>
+  </div>
+  <div class="row"><div class="lbl">Ghost</div>
+    <span class="badge" style="background:var(--fs-signal-undervalued-bg);color:var(--fs-signal-undervalued);border:1px solid var(--fs-signal-undervalued-dim)">▼ UNDERVALUED</span>
+    <span class="badge" style="background:var(--fs-signal-overvalued-bg);color:var(--fs-signal-overvalued);border:1px solid var(--fs-signal-overvalued-dim)">▲ OVERVALUED</span>
+    <span class="badge" style="background:var(--fs-signal-trap-bg);color:var(--fs-signal-trap);border:1px solid var(--fs-signal-trap-dim)">⚠ VALUE_TRAP</span>
+    <span class="badge" style="background:var(--fs-signal-premium-bg);color:var(--fs-signal-premium);border:1px solid var(--fs-signal-premium-dim)">★ QUALITY_PREMIUM</span>
+    <span class="badge" style="background:var(--fs-signal-fair-bg);color:var(--fs-signal-fair);border:1px solid var(--fs-signal-fair-dim)">― FAIR_VALUE</span>
+  </div>
+  <div class="row"><div class="lbl">Confidence</div>
+    <span class="conf"><span style="width:6px;height:6px;border-radius:50%;background:var(--fs-signal-undervalued)"></span>HIGH</span>
+    <span class="conf"><span style="width:6px;height:6px;border-radius:50%;background:var(--fs-signal-trap)"></span>MEDIUM</span>
+    <span class="conf"><span style="width:6px;height:6px;border-radius:50%;background:var(--fs-fg-dim)"></span>LOW</span>
+  </div>
+</div></body></html>
